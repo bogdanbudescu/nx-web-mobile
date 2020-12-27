@@ -20,7 +20,9 @@
               "apps/web-app/src/favicon.ico",
               "apps/web-app/src/assets"
             ],
-            "styles": ["apps/web-app/src/styles.scss"],
+            "styles": [
+              "apps/web-app/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -78,12 +80,17 @@
               "apps/web-app/tsconfig.spec.json",
               "apps/web-app/tsconfig.editor.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/web-app/**/*"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/web-app/**/*"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/web-app"],
+          "outputs": [
+            "coverage/apps/web-app"
+          ],
           "options": {
             "jestConfig": "apps/web-app/jest.config.js",
             "passWithNoTests": true
@@ -91,29 +98,112 @@
         }
       }
     },
-    "web-app-e2e": {
-      "root": "apps/web-app-e2e",
-      "sourceRoot": "apps/web-app-e2e/src",
+    "ionic-app": {
       "projectType": "application",
+      "root": "apps/ionic-app",
+      "sourceRoot": "apps/ionic-app/src",
+      "prefix": "nx-ionic",
       "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "cypressConfig": "apps/web-app-e2e/cypress.json",
-            "tsConfig": "apps/web-app-e2e/tsconfig.e2e.json",
-            "devServerTarget": "web-app:serve"
+            "outputPath": "dist/apps/ionic-app",
+            "index": "apps/ionic-app/src/index.html",
+            "main": "apps/ionic-app/src/main.ts",
+            "polyfills": "apps/ionic-app/src/polyfills.ts",
+            "tsConfig": "apps/ionic-app/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
+              },
+              {
+                "glob": "**/*.svg",
+                "input": "node_modules/ionicons/dist/ionicons/svg",
+                "output": "./svg"
+              }
+            ],
+            "styles": [
+              {
+                "input": "apps/ionic-app/src/theme/variables.scss"
+              },
+              {
+                "input": "apps/ionic-app/src/global.scss"
+              }
+            ],
+            "scripts": []
           },
           "configurations": {
             "production": {
-              "devServerTarget": "web-app:serve:production"
+              "fileReplacements": [
+                {
+                  "replace": "apps/ionic-app/src/environments/environment.ts",
+                  "with": "apps/ionic-app/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
             }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ionic-app:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ionic-app:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ionic-app:build"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/web-app-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/web-app-e2e/**/*"]
+            "tsConfig": [
+              "apps/ionic-app/tsconfig.app.json",
+              "apps/ionic-app/tsconfig.spec.json",
+              "apps/ionic-app/tsconfig.editor.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/ionic-app/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/ionic-app"
+          ],
+          "options": {
+            "jestConfig": "apps/ionic-app/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
