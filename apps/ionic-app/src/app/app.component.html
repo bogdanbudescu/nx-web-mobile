@@ -1,3 +1,34 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>X-O try to beat me !</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4" *ngFor="let state of board.state;let i = index;" (click)="hitCell(i)" [id]="'cell_' + i">
+        <div class="cell">
+          <ion-icon name="ellipse-outline" *ngIf="state == 'o'" style="font-size: 42px;margin: auto;"></ion-icon>
+          <ion-icon name="close-outline" *ngIf="state == 'x'" style="font-size: 42px;margin: auto;"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>
+            Starting Player
+          </ion-label>
+          <ion-select placeholder="Select One" name="startingPlayer" [value]="gameService.startingPlayer" (ionChange)="setValue($event)">
+            <ion-select-option *ngFor="let player of gameService.players" [value]="player.value" >{{player.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button expand="block" (click)="gameService.newGame()">New Game</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-app>

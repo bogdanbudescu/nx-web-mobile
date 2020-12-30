@@ -21,7 +21,11 @@
               "apps/web-app/src/assets"
             ],
             "styles": [
-              "apps/web-app/src/styles.scss"
+              "apps/web-app/src/styles.scss",
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/primeng/resources/themes/saga-blue/theme.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              "./node_modules/primeflex/primeflex.css"
             ],
             "scripts": []
           },
@@ -203,6 +207,48 @@
           ],
           "options": {
             "jestConfig": "apps/ionic-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "ionic-cordova-build": {
+        "builder": "@ionic/angular-toolkit:cordova-build",
+        "options": {
+          "browserTarget": "ionic-app:build"
+        },
+        "configurations": {
+          "production": {
+            "browserTarget": "ionic-app:build:production"
+          }
+        }
+      }
+    },
+    "game": {
+      "projectType": "library",
+      "root": "libs/game",
+      "sourceRoot": "libs/game/src",
+      "prefix": "nx-ionic",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/game/tsconfig.lib.json",
+              "libs/game/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/game/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/game"
+          ],
+          "options": {
+            "jestConfig": "libs/game/jest.config.js",
             "passWithNoTests": true
           }
         }
