@@ -33,7 +33,7 @@ export class GameService {
 
     public hitCell(cellIndex) {
         if (this.board.isTerminal() || !this.playerTurn) return false;
-        const symbol = this.maximizing ? 'x' : 'o'; //Maximizing player is always 'x'
+        var symbol = this.maximizing ? 'x' : 'o'; //Maximizing player is always 'x'
         //Update the Board class instance as well as the Board UI
         this.board.insert(symbol, cellIndex);
 
@@ -44,14 +44,16 @@ export class GameService {
         this.playerTurn = 0; //Switch turns
 
         //Get computer's best move and update the UI
-        this.player.getBestMove(this.board, !this.maximizing, best => {
-            const symbol = !this.maximizing ? 'x' : 'o';
-            this.board.insert(symbol, parseInt(best));
+        let best = this.player.getBestMove(this.board, !this.maximizing)
+        // , best => {
+        console.log(best)
+        var symbol = !this.maximizing ? 'x' : 'o';
+        this.board.insert(symbol, parseInt(best));
 
-            if (this.board.isTerminal()) {
-                console.log(this.board.isTerminal())
-            }
-            this.playerTurn = 1; //Switch turns
-        });
+        if (this.board.isTerminal()) {
+            console.log(this.board.isTerminal())
+        }
+        this.playerTurn = 1; //Switch turns
+        // });
     }
 }
