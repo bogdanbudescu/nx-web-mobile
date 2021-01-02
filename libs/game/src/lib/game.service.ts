@@ -32,28 +32,28 @@ export class GameService {
     }
 
     public hitCell(cellIndex) {
-        if (this.board.isTerminal() || !this.playerTurn) return false;
+        if (this.board.isTerminal()) return false;
         var symbol = this.maximizing ? 'x' : 'o'; //Maximizing player is always 'x'
         //Update the Board class instance as well as the Board UI
         this.board.insert(symbol, cellIndex);
 
         //If it's a terminal move and it's not a draw, then human won
-        if (this.board.isTerminal()) {
-            console.log(this.board.isTerminal())
+        let result = this.board.isTerminal();
+        if (result) {
+            alert('Winner is ' + (result).winner)
         }
         this.playerTurn = 0; //Switch turns
 
         //Get computer's best move and update the UI
-        let best = this.player.getBestMove(this.board, !this.maximizing)
-        // , best => {
-        console.log(best)
+        let bestPosition = this.player.getBestMove(this.board, !this.maximizing, 0) // main call for getBestMove
+        console.log(bestPosition);
+        console.log(this.player.myMap);
         var symbol = !this.maximizing ? 'x' : 'o';
-        this.board.insert(symbol, parseInt(best));
-
-        if (this.board.isTerminal()) {
-            console.log(this.board.isTerminal())
+        this.board.insert(symbol, parseInt(bestPosition));
+        result = this.board.isTerminal();
+        if (result) {
+            alert('Winner is ' + (result).winner)
         }
         this.playerTurn = 1; //Switch turns
-        // });
     }
 }
